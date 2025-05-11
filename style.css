@@ -24,7 +24,6 @@ html, body {
 }
 
 body {
-  font-family: var(--font-main);
   line-height: 1.6;
   color: var(--light-color);
   background: linear-gradient(135deg, #0a0a2a 0%, #000000 100%);
@@ -51,7 +50,6 @@ body {
 }
 
 .shapka h1 {
-  font-family: var(--font-heading);
   font-weight: 600;
   font-size: 1.8rem;
   margin-bottom: 0.5rem;
@@ -127,7 +125,6 @@ body {
 }
 
 .glavnaya-sektsiya h2 {
-  font-family: var(--font-heading);
   font-size: 2.5rem;
   margin-bottom: 1rem;
   color: white;
@@ -207,7 +204,6 @@ body {
 }
 
 .kartochka-tekhnologii h3 {
-  font-family: var(--font-heading);
   color: var(--primary-color);
   margin-bottom: 1rem;
   font-size: 1.4rem;
@@ -227,7 +223,6 @@ body {
   text-align: center;
   margin-bottom: 2rem;
   color: white;
-  font-family: var(--font-heading);
 }
 
 .pole-vvoda, .oblast-teksta {
