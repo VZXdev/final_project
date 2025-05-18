@@ -1,7 +1,10 @@
-root {
+:root {
   --primary-color: #6c63ff;
+  --primary-color-dark: #554dcc;
   --secondary-color: #1a1a4e;
+  --secondary-color-light: #2a2a7e;
   --accent-color: #ff6584;
+  --accent-color-dark: #e04d6b;
   --dark-color: #000000;
   --light-color: #ffffff;
   --gray-color: #a0aec0;
@@ -9,60 +12,99 @@ root {
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
   --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
   --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
-  --transition: all 0.3s ease;
-  --font-family: sans-serif;
+  --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  --transition-fast: all 0.15s ease;
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-family-heading: 'Poppins', var(--font-family);
+  --max-width: 1200px;
+  --border-radius: 12px;
+  --header-height: 80px;
 }
 
-* {
+/* Тут что я изучал сам, вне темы. Чуть чуть исправил сам стиль, вроде всё хорошо работает. Если что поддержку разных стилей нашёл на github */
+*, *::before, *::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-html, body {
+html {
+  scroll-behavior: smooth;
   height: 100%;
+  font-size: 100%;
 }
 
 body {
-  font-family: sans-serif;
+  min-height: 100vh;
+  min-height: 100dvh;
+  font-family: var(--font-family);
   line-height: 1.6;
   color: var(--light-color);
-  background: linear-gradient(135deg, #0a0a2a 0%, #000000 100%);
+  background: linear-gradient(135deg, #0a0a2a 0%, #000000 100%) fixed;
   overflow-x: hidden;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
-  background-attachment: fixed;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
+
+h1, h2, h3, h4 {
+  font-family: var(--font-family-heading);
+  font-weight: 600;
+  line-height: 1.2;
+  margin-bottom: 0.75em;
+}
+
+p {
+  margin-bottom: 1.5rem;
+  max-width: 65ch;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: var(--transition-fast);
+}
+
 
 .shapka {
   background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
   color: white;
-  padding: 1.5rem 2rem;
+  padding: 1rem 2rem;
   box-shadow: var(--shadow-md);
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: 1000;
   transition: var(--transition);
+  height: var(--header-height);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  background-color: rgba(26, 26, 78, 0.85);
 }
 
 .shapka:hover {
   box-shadow: var(--shadow-lg);
+  background-color: rgba(26, 26, 78, 0.95);
 }
 
 .shapka h1 {
-  font-family: sans-serif;
-  font-weight: 600;
-  font-size: 1.8rem;
-  margin-bottom: 0.5rem;
-  text-shadow: 0 2px 4px white;
+  font-size: clamp(1.5rem, 4vw, 1.8rem);
+  margin-bottom: 0;
+  text-shadow: 0 2px 4px rgba(255, 255, 255, 0.2);
+  letter-spacing: -0.5px;
 }
+
 
 .navigatsiya ul {
   display: flex;
   justify-content: center;
   gap: 1.5rem;
   list-style: none;
+  flex-wrap: wrap;
 }
 
 .navigatsiya a {
@@ -73,6 +115,7 @@ body {
   border-radius: 50px;
   transition: var(--transition);
   position: relative;
+  display: inline-block;
 }
 
 .navigatsiya a::after {
@@ -80,6 +123,7 @@ body {
   position: absolute;
   bottom: 0;
   left: 50%;
+  transform: translateX(-50%);
   width: 0;
   height: 2px;
   background: var(--accent-color);
@@ -88,7 +132,6 @@ body {
 
 .navigatsiya a:hover::after {
   width: 80%;
-  left: 10%;
 }
 
 .navigatsiya a.aktivnaya-stranitsa {
@@ -96,54 +139,82 @@ body {
   font-weight: 600;
 }
 
+
 .osnovnoe-soderzhimoe {
-  max-width: 1200px;
+  max-width: var(--max-width);
   margin: 2rem auto;
   padding: 0 2rem;
-  animation: fadeIn 0.8s ease-out;
+  animation: fadeIn 0.8s ease-out forwards;
   flex: 1;
   width: 100%;
+  opacity: 0;
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
+
 .glavnaya-sektsiya {
   text-align: center;
-  padding: 4rem 0;
+  padding: 4rem 2rem;
   background: rgba(0, 0, 0, 0.7);
-  border-radius: 12px;
+  border-radius: var(--border-radius);
   box-shadow: var(--shadow-sm);
   margin-bottom: 3rem;
   transition: var(--transition);
   border: 1px solid var(--primary-color);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  position: relative;
+  overflow: hidden;
+}
+
+.glavnaya-sektsiya::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(108, 99, 255, 0.1) 0%, transparent 70%);
+  transform: rotate(30deg);
+  z-index: -1;
 }
 
 .glavnaya-sektsiya:hover {
   box-shadow: var(--shadow-lg);
   transform: translateY(-5px);
+  border-color: var(--accent-color);
 }
 
 .glavnaya-sektsiya h2 {
-  font-size: 2.5rem;
+  font-size: clamp(2rem, 5vw, 2.5rem);
   margin-bottom: 1rem;
   color: white;
+  background: linear-gradient(to right, var(--primary-color), var(--light-color));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  display: inline-block;
 }
 
 .glavnaya-sektsiya p {
-  font-size: 1.1rem;
+  font-size: clamp(1rem, 2vw, 1.1rem);
   max-width: 700px;
   margin: 0 auto 2rem;
-  color: white;
+  color: var(--gray-color);
 }
 
-.knopka-uznat-bolshe, .knopka-otpravit {
+
+.knopka {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
   color: white;
   border: none;
-  padding: 12px 30px;
+  padding: 0.75rem 2rem;
   font-size: 1rem;
   font-weight: 500;
   border-radius: 50px;
@@ -152,57 +223,63 @@ body {
   box-shadow: 0 4px 15px rgba(108, 99, 255, 0.3);
   position: relative;
   overflow: hidden;
+  z-index: 1;
+  min-width: 180px;
+  text-align: center;
 }
 
-.knopka-uznat-bolshe:hover, .knopka-otpravit:hover {
+.knopka::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, var(--primary-color-dark), var(--secondary-color-light));
+  z-index: -1;
+  opacity: 0;
+  transition: var(--transition);
+}
+
+.knopka:hover {
   transform: translateY(-3px);
   box-shadow: 0 8px 25px rgba(108, 99, 255, 0.4);
 }
 
-.knopka-uznat-bolshe:active, .knopka-otpravit:active {
+.knopka:hover::before {
+  opacity: 1;
+}
+
+.knopka:active {
   transform: translateY(1px);
 }
 
-.knopka-uznat-bolshe::after, .knopka-otpravit::after {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(
-    to bottom right,
-    rgba(255, 255, 255, 0.3),
-    rgba(255, 255, 255, 0)
-  );
-  transform: rotate(30deg);
-  transition: var(--transition);
-}
-
-.knopka-uznat-bolshe:hover::after, .knopka-otpravit:hover::after {
-  left: 100%;
-}
 
 .sektsiya-tekhnologiy {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
   gap: 2rem;
   margin: 3rem 0;
 }
 
 .kartochka-tekhnologii {
   background: rgba(0, 0, 0, 0.7);
-  border-radius: 12px;
+  border-radius: var(--border-radius);
   padding: 2rem;
   box-shadow: var(--shadow-sm);
   transition: var(--transition);
   border-left: 4px solid var(--primary-color);
   color: white;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  backdrop-filter: blur(4px);
 }
 
 .kartochka-tekhnologii:hover {
   transform: translateY(-10px);
   box-shadow: var(--shadow-lg);
+  border-left-color: var(--accent-color);
 }
 
 .kartochka-tekhnologii h3 {
@@ -211,14 +288,16 @@ body {
   font-size: 1.4rem;
 }
 
+
 .kontaktnaya-forma {
   background: rgba(0, 0, 0, 0.7);
   padding: 3rem;
-  border-radius: 12px;
+  border-radius: var(--border-radius);
   box-shadow: var(--shadow-sm);
   max-width: 600px;
   margin: 0 auto;
   border: 1px solid var(--primary-color);
+  backdrop-filter: blur(4px);
 }
 
 .kontaktnaya-forma h2 {
@@ -227,22 +306,27 @@ body {
   color: white;
 }
 
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
 .pole-vvoda, .oblast-teksta {
   width: 100%;
   padding: 1rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0;
   border: 2px solid var(--primary-color);
   border-radius: 8px;
   font-size: 1rem;
   transition: var(--transition);
   background: rgba(0, 0, 0, 0.5);
   color: white;
+  font-family: var(--font-family);
 }
 
 .pole-vvoda:focus, .oblast-teksta:focus {
   border-color: var(--accent-color);
   outline: none;
-  box-shadow: 0 0 0 3px rgba(17, 4, 207, 0.2);
+  box-shadow: 0 0 0 3px rgba(255, 101, 132, 0.2);
 }
 
 .oblast-teksta {
@@ -250,19 +334,23 @@ body {
   resize: vertical;
 }
 
+
 .podval {
-  background: #000;
+  background: rgba(0, 0, 0, 0.9);
   color: white;
   text-align: center;
   padding: 2rem;
   margin-top: auto;
   width: 100%;
+  backdrop-filter: blur(8px);
 }
 
 .podval p {
   margin: 0;
   font-size: 0.9rem;
+  opacity: 0.8;
 }
+
 
 @keyframes pulse {
   0% { transform: scale(1); }
@@ -274,32 +362,24 @@ body {
   animation: pulse 2s infinite;
 }
 
-@media (max-width: 768px) {
-  .navigatsiya ul {
-    flex-direction: column;
-    gap: 0.5rem;
-    align-items: center;
-  }
-
-  .glavnaya-sektsiya {
-    padding: 2rem 1rem;
-  }
-
-  .glavnaya-sektsiya h2 {
-    font-size: 2rem;
-  }
-
-  .kontaktnaya-forma {
-    padding: 2rem 1rem;
-  }
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
 }
+
+.float {
+  animation: float 3s ease-in-out infinite;
+}
+
+
 .izobrazhenie-ai {
   width: 100%;
   max-height: 400px;
   object-fit: cover;
-  border-radius: 12px;
+  border-radius: var(--border-radius);
   margin: 2rem 0;
-  box-shadow: 0 8px 30px rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 30px rgba(255, 255, 255, 0.1);
   transition: var(--transition);
   border: 2px solid var(--primary-color);
 }
@@ -309,9 +389,10 @@ body {
   box-shadow: 0 12px 40px rgba(108, 99, 255, 0.4);
 }
 
+
 .galeriya {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
   gap: 1.5rem;
   margin: 3rem 0;
 }
@@ -319,8 +400,9 @@ body {
 .galeriya-item {
   position: relative;
   overflow: hidden;
-  border-radius: 12px;
+  border-radius: var(--border-radius);
   height: 250px;
+  transition: var(--transition);
 }
 
 .galeriya-item img {
@@ -328,6 +410,11 @@ body {
   height: 100%;
   object-fit: cover;
   transition: var(--transition);
+}
+
+.galeriya-item:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
 }
 
 .galeriya-item:hover img {
@@ -339,7 +426,8 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
-  background: white;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
   padding: 1rem;
   transform: translateY(100%);
   transition: var(--transition);
@@ -347,4 +435,80 @@ body {
 
 .galeriya-item:hover .galeriya-podpis {
   transform: translateY(0);
+}
+
+
+@media (max-width: 768px) {
+  :root {
+    --header-height: 70px;
+  }
+  
+  .shapka {
+    padding: 0.5rem 1rem;
+  }
+  
+  .navigatsiya ul {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+    padding: 0.5rem 0;
+  }
+  
+  .glavnaya-sektsiya {
+    padding: 2rem 1rem;
+  }
+  
+  .kontaktnaya-forma {
+    padding: 2rem 1rem;
+  }
+  
+  .sektsiya-tekhnologiy {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  
+  .shapka, .podval {
+    display: none;
+  }
+  
+  a::after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+    font-weight: normal;
+  }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+
+[data-whatintent="keyboard"] a:focus,
+[data-whatintent="keyboard"] button:focus,
+[data-whatintent="keyboard"] input:focus {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 2px;
+}
+
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --light-color: #f8f9fa;
+    --dark-color: #121212;
+  }
 }
